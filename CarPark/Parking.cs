@@ -1,35 +1,45 @@
 ﻿namespace CarPark;
 
-public class Parking
+internal class Parking
 {
-    public List<Car> ParkedCars { get; set; }
-    public int NumberOfParkingSpaces { get; set; }
-    public Parking(int numberOfParkingSpaces)
+    public List<Vehicle> VehicleList { get; init; }
+    public int ParkingSpacesCount { get; init; }
+	public int VacantSpacesCount 
+	{
+		get
+		{
+			return ParkingSpacesCount - VehicleList.Count;
+		}
+	}
+
+    public Parking()
+	{
+		VehicleList = new List<Vehicle>();
+		ParkingSpacesCount = 10;
+	}
+
+    public Parking(int parkingSpacesCount)
     {
-        ParkedCars = new List<Car>();
-        NumberOfParkingSpaces = numberOfParkingSpaces;
+        VehicleList = new List<Vehicle>();
+        ParkingSpacesCount = parkingSpacesCount;
     }
 
-    public void CarRecording(Car car)
+    public bool AddVehicle(Vehicle car)
     {
-        if (NumberOfParkingSpaces > ParkedCars.Count)
+        if (VacantSpacesCount == 0)
         {
-            ParkedCars.Add(car);
-            Console.WriteLine($"{car} заехала на парковку");
+			return false;
         }
-        else
-        {
-            Console.Write("Свободных мест нет");
-        }
+
+		VehicleList.Add(car);
+		return true;
     }
-    /// <summary>
-    /// Метод вывода всех машин
-    /// </summary>
-    public void AllCars() 
+
+    public IEnumerable<Vehicle> GetAllVehicle() 
     {
-        foreach (Car car in ParkedCars)
+        foreach (Vehicle car in VehicleList)
         {
-            Console.WriteLine(car);
+            yield return car;
         }
     }
 }
