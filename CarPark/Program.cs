@@ -1,4 +1,5 @@
 ﻿using System;
+using Faker;
 
 namespace CarPark;
 
@@ -7,6 +8,7 @@ internal class Programm
     public static void Main()
     {
         StartVehicleLab();
+        RandomAdress();
     }
 
     private static void StartVehicleLab()
@@ -28,10 +30,15 @@ internal class Programm
     {
         if(parking.AddVehicle(vehicle))
         {
-            Console.WriteLine($"{vehicle.Model} была припаркована/nОсталось {parking.VacantSpacesCount} свободных мест");
+            Console.WriteLine($"{vehicle.Model} была припаркована\nОсталось {parking.VacantSpacesCount} свободных мест");
             return;
         }
 
         Console.WriteLine("Парковка заполнена");
+    }
+
+    private static void RandomAdress()
+    {
+        Console.WriteLine(Address.StreetAddress());
     }
 }
